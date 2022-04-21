@@ -1,0 +1,50 @@
+{
+    "name": "@yago/cms",
+    "private": true,
+    "main": "resources/js/app.js",
+    "scripts": {
+        "dev": "npm run development",
+        "development": "webpack --config webpack.dll.dev.js && webpack --config webpack.dev.js ",
+        "watch": "webpack --config webpack.dll.dev.js && concurrently -k \"webpack --watch --config webpack.dll.dev.js\" \"webpack --watch --config webpack.dev.js\"",
+        "prod": "npm run production",
+        "production": "webpack --config webpack.dll.prod.js && webpack --config webpack.prod.js"
+    },
+    "devDependencies": {
+        "@apollo/client": "^3.5.10",
+        "@babel/core": "^7.17.9",
+        "@babel/preset-env": "^7.16.11",
+        "@babel/preset-react": "^7.16.7",
+        "@emotion/react": "^11.9.0",
+        "@emotion/styled": "^11.8.1",
+        "@fortawesome/fontawesome-svg-core": "^6.1.1",
+        "@fortawesome/pro-duotone-svg-icons": "^6.1.1",
+        "@fortawesome/react-fontawesome": "^0.1.18",
+        "@googlemaps/react-wrapper": "^1.1.31",
+        "@mui/lab": "^5.0.0-alpha.78",
+        "@mui/material": "^5.6.2",
+        "@mui/x-data-grid": "^5.9.0",
+        "@mui/x-date-pickers": "^5.0.0-alpha.1",
+        "@tinymce/tinymce-react": "^4.0.0",
+        "apollo-upload-client": "^17.0.0",
+        "babel-loader": "^8.2.4",
+        "concurrently": "^7.1.0",
+        "copy-webpack-plugin": "^10.2.4",
+        "date-fns": "^2.28.0",
+        "graphql": "^16.3.0",
+        "lodash": "^4.17.21",
+        "prop-types": "^15.8.1",
+        "react": "^17.0.2",
+        "react-beautiful-dnd": "^13.1.0",
+        "react-dnd": "^14.0.5",
+        "react-dnd-html5-backend": "^14.1.0",
+        "react-dom": "^17.0.2",
+        "react-hook-form": "^7.30.0",
+        "react-router-dom": "^6.3.0",
+        "react-use": "^17.3.2",
+        "sanitize-html": "^2.7.0",
+        "tinymce": "^6.0.1"
+    },
+    "dependencies": {
+        "fast-equals": "^3.0.1"
+    }
+}

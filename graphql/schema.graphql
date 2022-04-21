@@ -1,0 +1,378 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"Can be used as an argument to upload files using https://github.com/jaydenseric/graphql-multipart-request-spec"
+scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
+
+type Query {
+    # Auth
+    me: User @auth @guard
+    # users: [User!]! @paginate(defaultCount: 10)
+    # user(id: ID @eq): User @find
+
+     # Version
+    currentVersion: Version @field(resolver: "VersionQuery", args: ["current"]) @guard
+    latestVersion: Version @field(resolver: "VersionQuery", args: ["latest"]) @guard
+
+    # Settings
+    settings(id: String! @eq): Settings @guard @find
+
+    # Page
+    page(id: ID @eq): Page @guard @find
+    pages: [Page!]! @field(resolver: "PagesQuery") @guard
+
+    # Page revision
+    pageRevision(id: ID @eq): PageRevision @find
+    latestPageRevision(page_id: ID @eq, is_saved: Boolean @eq): PageRevision @guard @orderBy(column: "id", direction: "desc") @first
+
+    # Page template
+    pageTemplate(id: ID @eq): PageTemplate @guard @find
+    pageTemplates: [PageTemplate!]! @guard @orderBy(column: "sorting") @all
+
+    # Card template
+    cardTemplate(id: ID @eq): CardTemplate @guard @find
+    cardTemplates: [CardTemplate!]! @guard @all
+
+    # File
+    files(path: String): Files! @guard @field(resolver: "FileQuery")
+
+    # Field
+    field(id: ID @eq): Field @guard @find
+    fields: [Field!]! @guard @all
+}
+
+type Mutation {
+    # Auth
+    login(input: LoginInput!): AccessToken!
+    logout: LogoutResponse! @guard
+
+    # Version
+    updateToLatestVersion: UpdateToLatestVersionResponse! @guard
+
+    # Settings
+    upsertSettings(id: String!, value: String!): Settings! @guard @upsert
+
+    # Page
+    upsertPage(input: UpsertPageInput! @spread): Page! @guard @upsert
+    deletePages(input: [ID]! @spread): [ID] @guard
+    sortPages(input: [SortPagesInput]! @spread): [Page] @guard
+
+    # Page revision
+    upsertPageRevision(input: UpsertPageRevisionInput! @spread): PageRevision! @guard @upsert
+    updatePageRevisionIsSaved(input: UpdatePageRevisionIsSavedInput! @spread): PageRevision! @guard @update
+
+    # Page template
+    upsertPageTemplate(input: UpsertPageTemplateInput! @spread): PageTemplate! @guard @upsert
+
+    # Card template
+    upsertCardTemplate(input: UpsertCardTemplateInput! @spread): CardTemplate! @guard @upsert
+
+     # File
+    moveFile(input: MoveFileInput! @spread): Files! @guard
+    renameFile(input: RenameFileInput! @spread): Files! @guard
+    deleteFile(input: DeleteFileInput! @spread): Files! @guard
+    uploadFiles(path: String, files: [Upload!]!): [String]
+    createFolder(input: CreateFolderInput! @spread): Files! @guard
+
+    # Field
+    upsertField(input: UpsertFieldInput! @spread): Field! @guard @upsert
+}
+
+# Auth
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+type LogoutResponse {
+    message: String!
+}
+
+type AccessToken {
+    token: String!
+}
+
+# Version
+type Version {
+    version: String!
+}
+
+type UpdateToLatestVersionResponse {
+    message: String!
+}
+
+# Settings
+type Settings {
+    id: String!
+    value: String!
+}
+
+# User
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+# Page template
+type PageTemplate {
+    id: ID!
+    name: String!
+    sorting: Int
+    pageTemplateSections: [PageTemplateSection!]! @orderBy(column: "sorting") @hasMany
+}
+
+type PageTemplateSection {
+    id: ID!
+    page_template_id: ID!
+    name: String!
+    key: String!
+    sorting: Int
+    pageTemplateSectionColumns: [PageTemplateSectionColumn]! @hasMany
+}
+
+type PageTemplateSectionColumn {
+    id: ID!
+}
+
+input UpsertPageTemplateInput {
+    id: ID
+    name: String!
+    pageTemplateSections: UpdatePageTemplateSectionsHasMany
+}
+
+input UpdatePageTemplateSectionsHasMany {
+    upsert: [UpsertPageTemplateSection!]
+    delete: [ID!]
+}
+
+input UpsertPageTemplateSection {
+    id: ID
+    name: String!
+    key: String!
+    sorting: Int!
+    pageTemplateSectionColumns: UpdatePageTemplateSectionColumnsHasMany
+}
+
+input UpdatePageTemplateSectionColumnsHasMany {
+    upsert: [UpsertPageTemplateSectionColumn!]
+    delete: [ID!]
+}
+
+input UpsertPageTemplateSectionColumn {
+    id: ID
+}
+
+# Page
+type Page {
+    id: ID!
+    parent_page_id: ID!
+    page_template_id: ID!
+    name: String!
+    route: String
+    is_root: Boolean
+    is_published: Boolean
+    is_shown_in_menu: Boolean
+    pageTemplate: PageTemplate @belongsTo
+    pageBlocks: [PageBlock!]! @hasMany
+}
+
+input UpsertPageInput {
+    id: ID
+    parent_page_id: ID
+    page_template_id: ID
+    name: String!
+    is_root: Boolean
+    is_published: Boolean
+    is_shown_in_menu: Boolean
+    pageBlocks: UpdatePageBlocksHasMany
+}
+
+input SortPagesInput {
+    id: ID!
+    parent_page_id: ID!
+    sorting: Int!
+}
+
+input DeletePagesInput {
+    id: ID!
+}
+
+# Page block
+type PageBlock {
+    id: ID!
+    page_id: ID!
+    page_template_section_id: ID!
+    page_template_section_column_id: ID!
+    type: String!
+    content: String!
+    sorting: Int
+    pageTemplateSection: PageTemplateSection @belongsTo
+}
+
+input UpdatePageBlocksHasMany {
+    upsert: [UpsertPageBlockInput!]
+    delete: [ID!]
+}
+
+input UpsertPageBlockInput {
+    id: ID
+    page_id: ID
+    page_template_section_id: ID
+    page_template_section_column_id: ID
+    type: String!
+    content: String!
+    sorting: Int
+}
+
+# Page revision
+type PageRevision {
+    id: ID!
+    page_id: ID!
+    page_template_id: ID!
+    name: String!
+    is_saved: Boolean!
+    pageTemplate: PageTemplate @belongsTo
+    pageBlocks: [PageRevisionBlock!]! @hasMany
+}
+
+input UpsertPageRevisionInput {
+    id: ID
+    page_id: ID
+    page_template_id: ID
+    name: String!
+    is_saved: Boolean
+    pageRevisionBlocks: UpdatePageRevisionBlocksHasMany
+}
+
+input UpdatePageRevisionIsSavedInput {
+    id: ID!
+    is_saved: Boolean!
+}
+
+# Page revision block
+type PageRevisionBlock {
+    id: ID!
+    page_revision_id: ID!
+    page_template_section_id: ID!
+    page_template_section_column_id: ID!
+    type: String!
+    content: String!
+    sorting: Int
+    pageTemplateSection: PageTemplateSection @belongsTo
+}
+
+input UpdatePageRevisionBlocksHasMany {
+    upsert: [UpsertPageRevisionBlockInput!]
+    delete: [ID!]
+}
+
+input UpsertPageRevisionBlockInput {
+    id: ID
+    page_revision_id: ID
+    page_template_section_id: ID
+    page_template_section_column_id: ID
+    type: String!
+    content: String!
+    sorting: Int
+}
+
+# File & directories
+enum FileType {
+    DIRECTORY @enum(value: 0)
+    FILE @enum(value: 1)
+    IMAGE @enum(value: 2)
+}
+
+type Files {
+    path: String!
+    files: [File!]
+}
+
+type File {
+    path: String!
+    name: String!
+    type: FileType!
+    extension: String
+}
+
+input MoveFileInput {
+    path: String!
+    source: String!
+    destination: String!
+}
+
+input RenameFileInput {
+    path: String!
+    name: String!
+}
+
+input DeleteFileInput {
+    path: String!
+}
+
+input CreateFolderInput {
+    path: String!
+    name: String!
+}
+
+# Card templates
+type CardTemplate {
+    id: ID!
+    name: String!
+    key: String!
+    config: String!
+}
+
+input UpsertCardTemplateInput {
+    id: ID
+    name: String!
+    key: String!
+    config: String!
+}
+
+# Field
+type Field {
+    id: ID!
+    name: String!
+    key: String!
+    columns: Int!
+    fieldBlocks: [FieldBlock!]! @hasMany
+}
+
+input UpsertFieldInput {
+    id: ID
+    name: String!
+    key: String!
+    columns: Int!
+    fieldBlocks: UpdateFieldBlocksHasMany
+}
+
+input UpdateFieldBlocksHasMany {
+    upsert: [UpsertFieldBlockInput!]
+    delete: [ID!]
+}
+
+# Field block
+type FieldBlock {
+    id: ID!
+    field_id: ID!
+    column: Int!
+    type: String!
+    content: String!
+    sorting: Int
+}
+
+input UpsertFieldBlockInput {
+    id: ID
+    field_id: ID
+    column: Int
+    type: String!
+    content: String!
+    sorting: Int
+}
