@@ -59,7 +59,7 @@ class CmsServiceProvider extends ServiceProvider
         $loader->alias('ModuleHelper', ModuleHelper::class);
     }
 
-    public function boot(ModuleService $moduleService)
+    public function boot()
     {
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
@@ -67,6 +67,7 @@ class CmsServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../../resources/dist' => public_path('vendor/cms'),
+            __DIR__ . '/../../resources/img' => public_path('vendor/cms/img'),
         ], 'yago');
 
         // $this->loadViewComponentsAs('yago-cms', [

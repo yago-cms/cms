@@ -30,12 +30,12 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'resources', 'dev', 'js'),
+        path: path.resolve(__dirname, 'resources', 'dist', 'js'),
     },
     plugins: [
         new DllReferencePlugin({
             context: __dirname,
-            manifest: require('./resources/dev/js/vendor-manifest.json')
+            manifest: require('./resources/dist/js/vendor-manifest.json')
         }),
         new CopyPlugin({
             patterns: [

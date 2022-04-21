@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@apollo/client": "^3.5.10",
+        "@atlaskit/tree": "^8.6.0",
         "@babel/core": "^7.17.9",
         "@babel/preset-env": "^7.16.11",
         "@babel/preset-react": "^7.16.7",
@@ -20,6 +21,7 @@
         "@fortawesome/pro-duotone-svg-icons": "^6.1.1",
         "@fortawesome/react-fontawesome": "^0.1.18",
         "@googlemaps/react-wrapper": "^1.1.31",
+        "@hookform/resolvers": "^2.8.8",
         "@mui/lab": "^5.0.0-alpha.78",
         "@mui/material": "^5.6.2",
         "@mui/x-data-grid": "^5.9.0",
@@ -30,21 +32,20 @@
         "concurrently": "^7.1.0",
         "copy-webpack-plugin": "^10.2.4",
         "date-fns": "^2.28.0",
+        "fast-equals": "^3.0.1",
         "graphql": "^16.3.0",
         "lodash": "^4.17.21",
         "prop-types": "^15.8.1",
-        "react": "^17.0.2",
         "react-beautiful-dnd": "^13.1.0",
-        "react-dnd": "^14.0.5",
         "react-dnd-html5-backend": "^14.1.0",
+        "react-dnd": "^14.0.5",
         "react-dom": "^17.0.2",
         "react-hook-form": "^7.30.0",
         "react-router-dom": "^6.3.0",
         "react-use": "^17.3.2",
+        "react": "^17.0.2",
         "sanitize-html": "^2.7.0",
-        "tinymce": "^6.0.1"
-    },
-    "dependencies": {
-        "fast-equals": "^3.0.1"
+        "tinymce": "^6.0.1",
+        "yup": "^0.32.11"
     }
 }

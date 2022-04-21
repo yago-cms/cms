@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client";
 import Tree, { moveItemOnTree, mutateTree } from "@atlaskit/tree";
-import { faAngleDown, faAngleRight, faCog, faColumns, faFileAlt, faGripLines, faHamburger, faPlus, faTrashAlt } from "@fortawesome/pro-duotone-svg-icons";
+import { faAngleDown, faAngleRight, faCog, faColumns, faFileAlt, faGripDotsVertical, faGripLines, faGripVertical, faHamburger, faPlus, faTrashAlt } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Chip, IconButton, Typography, List, ListItemText, Stack } from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -73,38 +74,61 @@ export const PageIndex = () => {
     }
   }, [getPagesResult.loading, getPagesResult.data]);
 
-  const renderItem = ({ item, onExpand, onCollapse, provided }) => {
+  const renderItem = ({ item, depth, onExpand, onCollapse, provided }) => {
     return <Stack
       direction="row"
       sx={{
         alignItems: 'center',
-        p: 1,
       }}
       ref={provided.innerRef}
       {...provided.draggableProps}
     >
       <Box
+        sx={{
+          p: 1,
+          display: 'flex',
+          alignItems: 'center',
+          alignSelf: 'stretch',
+          borderRight: 1,
+          borderRightColor: blueGrey[100]
+        }}
         {...provided.dragHandleProps}
       >
-        <FontAwesomeIcon icon={faGripLines} />
+        <FontAwesomeIcon icon={faGripVertical} />
       </Box>
 
-      <Box>
+      <Box
+        sx={{
+          mx: 1,
+        }}
+      >
         {item.children && item.children.length > 0
-          ? item.isExpanded
-            ? <IconButton onClick={() => onCollapse(item.id)}>
+          ? (item.isExpanded
+            ? (<IconButton onClick={() => onCollapse(item.id)} size="small">
               <FontAwesomeIcon icon={faAngleDown} fixedWidth />
             </IconButton>
-            : <IconButton onClick={() => onExpand(item.id)}>
-              <FontAwesomeIcon icon={faAngleRight} fixedWidth />
+            )
+            : (
+              <IconButton onClick={() => onExpand(item.id)} size="small">
+                <FontAwesomeIcon icon={faAngleRight} fixedWidth />
+              </IconButton>
+            )
+          )
+          : (
+            <IconButton size="small">
+              <div style={{ width: '1.25em' }}>&bull;</div>
             </IconButton>
-          : <IconButton>
-            <div style={{ width: '1.25em' }}>&bull;</div>
-          </IconButton>
+          )
         }
       </Box>
 
-      <Box onClick={() => handleShow(item.id)} sx={{ flex: 1 }}>
+      <Box
+        onClick={() => handleShow(item.id)}
+        sx={{
+          p: 1,
+          flex: 1,
+        }}
+      >
         <Stack
           direction="row"
           spacing={1}
@@ -112,7 +136,10 @@ export const PageIndex = () => {
             alignItems: 'center',
           }}
         >
-          <Box sx={{ flex: 1 }}>
+          <Box sx={{
+            flex: 1,
+            cursor: 'pointer',
+          }}>
             {item.data.title}
           </Box>
 
@@ -120,29 +147,27 @@ export const PageIndex = () => {
             {item.data.isRoot && <Chip label="Root" size="small" color="info" variant="outlined" />}
             {!item.data.isPublished && <Chip label="Draft" size="small" color="info" variant="outlined" />}
             {!item.data.isShownInMenu && <Chip label="Hidden" size="small" color="info" variant="outlined" />}
+            <Chip label={item.data.template} size="small" color="primary" variant="outlined" />
           </Stack>
-
-          <Box sx={{ p: 2 }}>
-            {item.data.template}
-          </Box>
         </Stack>
       </Box>
 
-
-      <Stack
-        direction="row"
-        spacing={1}
-      >
-        <IconButton size="small" onClick={() => handleAdd(item.id)}>
-          <FontAwesomeIcon icon={faPlus} />
-        </IconButton>
-
-        {item.children.length == 0 &&
-          <IconButton size="small" color="error" onClick={() => handleRemove(item.id)}>
-            <FontAwesomeIcon icon={faTrashAlt} />
+      <Box sx={{ p: 1 }}>
+        <Stack
+          direction="row"
+          spacing={1}
+        >
+          <IconButton size="small" onClick={() => handleAdd(item.id)}>
+            <FontAwesomeIcon icon={faPlus} />
           </IconButton>
-        }
-      </Stack>
+
+          {item.children.length == 0 &&
+            <IconButton size="small" color="error" onClick={() => handleRemove(item.id)}>
+              <FontAwesomeIcon icon={faTrashAlt} />
+            </IconButton>
+          }
+        </Stack>
+      </Box>
     </Stack>
   };
 
@@ -258,19 +283,35 @@ export const PageIndex = () => {
       }}
     >
       <PageContent>
-        {getPagesResult.data.pages.length > 0 ? (
-          <Tree
-            tree={tree}
-            renderItem={renderItem}
-            onExpand={handleExpand}
-            onCollapse={handleCollapse}
-            onDragEnd={handleDragEnd}
-            isDragEnabled
-            isNestingEnabled
-          />
-        ) : (
-          <Typography>There are no pages. <Link to="/pages/create/0">Create</Link> a page.</Typography>
-        )}
+        {getPagesResult.data.pages.length > 0
+          ? (
+            <Box
+              sx={{
+                border: 1,
+                borderColor: blueGrey[100],
+                borderRadius: 1,
+                '> div > div': {
+                  borderBottom: 1,
+                  borderBottomColor: blueGrey[100],
+                },
+                '> div > div:last-child': {
+                  borderBottom: 0,
+                }
+              }}>
+              <Tree
+                tree={tree}
+                renderItem={renderItem}
+                onExpand={handleExpand}
+                onCollapse={handleCollapse}
+                onDragEnd={handleDragEnd}
+                isDragEnabled
+                isNestingEnabled
+              />
+            </Box>
+          )
+          : (
+            <Typography>There are no pages. <Link to="/pages/create/0">Create</Link> a page.</Typography>
+          )}
       </PageContent>
     </Page>
   );
