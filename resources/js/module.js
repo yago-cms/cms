@@ -36,3 +36,4 @@ export { PageCard } from "./components/PageCard";
 export { FieldActions } from "./components/Field";
 export * as Map from "./components/Map";
 export { usePrompt } from "./tmp-prompt";
+export * from "./queries";

@@ -5,6 +5,7 @@ namespace Yago\Cms\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Yago\Cms\Console\Commands\Install;
 use Yago\Cms\Helpers\CardHelper;
 use Yago\Cms\Helpers\MediaHelper;
 use Yago\Cms\Helpers\ModuleHelper;
@@ -61,6 +62,12 @@ class CmsServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class,
+            ]);
+        }
+
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'yago-cms');
@@ -69,10 +76,6 @@ class CmsServiceProvider extends ServiceProvider
             __DIR__ . '/../../resources/dist' => public_path('vendor/cms'),
             __DIR__ . '/../../resources/img' => public_path('vendor/cms/img'),
         ], 'yago');
-
-        // $this->loadViewComponentsAs('yago-cms', [
-        //     Carousel::class,
-        // ]);
 
         Blade::componentNamespace('Yago\\Cms\\View\\Components', 'yago-cms');
     }
