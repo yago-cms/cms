@@ -3,6 +3,7 @@
 namespace Yago\Cms\Console\Commands;
 
 use Illuminate\Console\Command;
+use Yago\Cms\Services\ModuleService;
 
 class Install extends Command
 {
@@ -35,11 +36,15 @@ class Install extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(ModuleService $moduleService)
     {
         $this->info('Publishing assets');
 
         $this->call('vendor:publish', ['--tag' => 'yago']);
+
+        foreach ($moduleService->getModules() as $module) {
+            $this->call('vendor:publish', ['--tag' => "yago-{$module['name']}"]);
+        }
 
         return 0;
     }
