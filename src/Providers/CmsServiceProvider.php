@@ -66,8 +66,8 @@ class CmsServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'yago-cms');
 
         $this->publishes([
-            __DIR__ . '/../../public' => public_path('vendor/cms'),
-        ], 'public');
+            __DIR__ . '/../../resources/dist' => public_path('vendor/cms'),
+        ], 'yago');
 
         // $this->loadViewComponentsAs('yago-cms', [
         //     Carousel::class,

@@ -41,6 +41,8 @@ class Install extends Command
     {
         $this->info('Publishing assets');
 
+        $this->call('vendor:publish', ['--tag' => 'yago']);
+
         return 0;
     }
 }
