@@ -32,6 +32,7 @@ export const Wysiwyg = ({ name, ...props }) => {
                 ...defaultConfig,
                 skin: prefersDarkMode ? 'oxide-dark' : 'oxide',
                 content_css: prefersDarkMode ? 'dark' : '',
+                height: '100%',
             }}
             tinymceScriptSrc="/vendor/cms/js/tinymce/tinymce.min.js"
             value={value}
