@@ -70,14 +70,14 @@ module.exports = {
         ]
     },
     output: {
-        path: path.join(__dirname, 'public', 'js'),
+        path: path.join(__dirname, 'resources', 'dev', 'js'),
         filename: '[name].js',
         library: '[name]'
     },
     plugins: [
         new DllPlugin({
             context: __dirname,
-            path: path.join(__dirname, 'public', 'js', '[name]-manifest.json'),
+            path: path.join(__dirname, 'resources', 'dev', 'js', '[name]-manifest.json'),
             name: '[name]',
             format: true,
         })
