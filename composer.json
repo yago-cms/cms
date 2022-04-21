@@ -47,6 +47,5 @@
                 "Yago\\Cms\\Providers\\CmsServiceProvider"
             ]
         }
-    },
-    "version": "3.0.0"
+    }
 }
