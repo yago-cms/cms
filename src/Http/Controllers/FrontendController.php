@@ -11,7 +11,6 @@ use Yago\Cms\Models\Settings;
 use Yago\Cms\Services\AbstractDataProviderService;
 use Yago\Cms\Services\ModuleService;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\View;
 
 class FrontendController extends Controller
 {

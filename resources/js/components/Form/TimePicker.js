@@ -22,6 +22,7 @@ export const TimePicker = ({ name, onChangeExtra, ...props }) => {
                 onBlur={onBlur}
                 inputRef={ref}
                 mask="__:__"
+                ampm={false}
                 renderInput={(params) => <TextField
                     fullWidth
                     error={!!error?.message}

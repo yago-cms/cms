@@ -1,9 +1,10 @@
 
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Yago\Cms\Http\Controllers\BackendController;
 use Yago\Cms\Http\Controllers\FrontendController;
-use Illuminate\Support\Facades\Route;
+use Yago\Cms\Http\Controllers\ImageController;
 
 // Admin
 Route::prefix('admin')
@@ -16,6 +17,8 @@ Route::prefix('admin')
     });
 
 // Frontend
+Route::get('/img/{path}', [ImageController::class, 'show'])->where('path', '.*');
+
 Route::get('/', [FrontendController::class, 'index']);
 
 Route::get('{route}', [FrontendController::class, 'getPage'])

@@ -1,7 +1,7 @@
-import { Checkbox as MuiCheckbox, FormControlLabel } from "@mui/material";
+import { Checkbox as MuiCheckbox, FormControlLabel, FormHelperText } from "@mui/material";
 import { useController } from "react-hook-form";
 
-export const Checkbox = ({ name, label, ...props }) => {
+export const Checkbox = ({ name, label, helperText, ...props }) => {
     const {
         field: { onChange, onBlur, value, ref },
     } = useController({
@@ -27,7 +27,10 @@ export const Checkbox = ({ name, label, ...props }) => {
                 control={
                     <Checkbox />
                 }
-                label={label}
+                label={<>
+                    {label}
+                    {helperText && <FormHelperText>{helperText}</FormHelperText>}
+                </>}
             />
             : <Checkbox />
     );
