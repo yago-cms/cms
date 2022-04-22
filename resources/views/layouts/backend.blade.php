@@ -13,8 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    {{-- <link href="{{ mix('backend/css/app.css') }}" rel="stylesheet"> --}}
-
     <title>@yield('title')</title>
 </head>
 

@@ -32,9 +32,15 @@ class CmsServiceProvider extends ServiceProvider
             ...Config::get('lighthouse.namespaces.models'),
         ]);
 
+        $queries = Config::get('lighthouse.namespaces.queries');
+
+        if (!is_array($queries)) {
+            $queries = [$queries];
+        }
+
         Config::set('lighthouse.namespaces.queries', [
             'Yago\\Cms\\GraphQL\\Queries',
-            Config::get('lighthouse.namespaces.queries'),
+            ...$queries,
         ]);
 
         Config::set('lighthouse.namespaces.mutations', [

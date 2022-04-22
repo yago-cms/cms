@@ -13,6 +13,7 @@ module.exports = {
         vendor: [
             path.join(__dirname, 'resources', 'js', 'module.js'),
             '@apollo/client',
+            '@atlaskit/tree',
             '@emotion/cache',
             '@emotion/react',
             '@emotion/styled',
