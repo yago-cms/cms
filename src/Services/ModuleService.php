@@ -67,10 +67,10 @@ class ModuleService
         $scripts = [];
 
         foreach ($this->modules as $module) {
-            if (app()->environment('production')) {
-                $filename = 'main.min.js';
-            } else {
+            if (app()->environment('local-dev')) {
                 $filename = 'main.js';
+            } else {
+                $filename = 'main.min.js';
             }
 
             $path = public_path("vendor/{$module['name']}/js/{$filename}");
