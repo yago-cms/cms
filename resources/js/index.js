@@ -5,8 +5,6 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
 import * as React from "react";
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './components/App';
@@ -45,11 +43,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(<ApolloProvider client={client}>
     <BrowserRouter basename="/admin">
-        <DndProvider backend={HTML5Backend}>
-            <React.StrictMode>
-                <App />
-            </React.StrictMode>
-        </DndProvider>
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
     </BrowserRouter>
 </ApolloProvider>,
     document.querySelector('#app'));

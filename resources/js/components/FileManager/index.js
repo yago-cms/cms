@@ -2,6 +2,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import { faFileUpload, faPlus } from "@fortawesome/pro-duotone-svg-icons";
 import { Alert, Box, Typography } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useNavigate, useParams } from "react-router-dom";
 import { DELETE_FILE, GET_FILES, MOVE_FILE, UPLOAD_FILES } from "../../queries";
 import { Error } from "../Error";
@@ -132,28 +134,30 @@ export const FileManager = ({ filter, isSelectMode, isPage, onSelectFile }) => {
     );
 
     return (
-        isPage
-            ? (
-                <Page
-                    heading="Files"
-                    fab={[
-                        {
-                            icon: faPlus,
-                            handleClick: () => setIsCreateFolderActive(true)
-                        },
-                        {
-                            icon: faFileUpload,
-                            handleClick: () => setIsUploadActive(true)
-                        }
-                    ]}
-                >
-                    <PageContent>
-                        <FileManagerContent />
-                    </PageContent>
-                </Page>
-            )
-            : (
-                <FileManagerContent />
-            )
+        <DndProvider backend={HTML5Backend}>
+            {isPage
+                ? (
+                    <Page
+                        heading="Files"
+                        fab={[
+                            {
+                                icon: faPlus,
+                                handleClick: () => setIsCreateFolderActive(true)
+                            },
+                            {
+                                icon: faFileUpload,
+                                handleClick: () => setIsUploadActive(true)
+                            }
+                        ]}
+                    >
+                        <PageContent>
+                            <FileManagerContent />
+                        </PageContent>
+                    </Page>
+                )
+                : (
+                    <FileManagerContent />
+                )}
+        </DndProvider>
     );
 }
