@@ -3,6 +3,7 @@
 namespace Yago\Cms\View\Components\Core;
 
 use Illuminate\View\Component;
+use Yago\Cms\Services\ModuleService;
 
 class Field extends Component
 {
@@ -48,6 +49,28 @@ class Field extends Component
                 break;
             }
         }
+
+        $moduleService = app()->make(ModuleService::class);
+        $moduleBlocks = $moduleService->getBlocks();
+
+        foreach ($blocks as &$block) {
+            foreach ($moduleBlocks as $moduleBlock) {
+                if ($block['type'] == $moduleBlock['type']) {
+                    $controller = $moduleBlock['method'][0];
+                    $action = $moduleBlock['method'][1];
+
+                    $response = app()->call("{$controller}@{$action}", [
+                        'config' => json_decode($block['content']),
+                        'segment' => null,
+                    ]);
+
+                    $block['view'] = $response;
+
+                    break;
+                }
+            }
+        }
+        unset($block);
 
         return view('yago-cms::components.core.block-list', compact('blocks'));
     }

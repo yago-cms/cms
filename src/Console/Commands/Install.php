@@ -40,10 +40,10 @@ class Install extends Command
     {
         $this->info('Publishing assets');
 
-        $this->call('vendor:publish', ['--tag' => 'yago']);
+        $this->call('vendor:publish', ['--tag' => 'yago', '--force']);
 
         foreach ($moduleService->getModules() as $module) {
-            $this->call('vendor:publish', ['--tag' => "yago-{$module['name']}"]);
+            $this->call('vendor:publish', ['--tag' => "yago-{$module['name']}", '--force']);
         }
 
         return 0;

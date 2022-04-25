@@ -9,6 +9,7 @@ import { SelectPage } from "../components/Form/SelectPage";
 import { usePrompt } from "../tmp-prompt";
 
 const schema = yup.object({
+    type: yup.string().required(),
     source: yup.string().required(),
     label: yup.string().required(),
     url: yup.string().when('source', {
@@ -86,6 +87,21 @@ export const CtaBlockEditor = forwardRef(({ content, save }, ref) => {
 
     return (
         <FormProvider {...methods}>
+            <Select
+                label="Type"
+                options={[
+                    {
+                        value: 'link',
+                        label: 'Link',
+                    },
+                    {
+                        value: 'button',
+                        label: 'Button',
+                    },
+                ]}
+                name="type"
+            />
+
             <Select
                 label="Source"
                 options={[

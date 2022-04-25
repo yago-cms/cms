@@ -8,4 +8,8 @@ if ($content->source == 'page') {
 }
 @endphp
 
-<a href="{{ $url }}" class="btn btn-primary">{{ $content->label }}</a>
+@if ($content->type == 'link')
+    <a href="{{ $url }}">{{ $content->label }}</a>
+@elseif ($content->type == 'button')
+    <a href="{{ $url }}" class="btn btn-primary">{{ $content->label }}</a>
+@endif
