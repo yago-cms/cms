@@ -12,22 +12,6 @@ const schema = yup.object({
     text: yup.string().required(),
 });
 
-export const HeadingPreview = ({ content, showDetails }) => {
-    return showDetails
-        ? <div>
-            <dl>
-                <dt>Type</dt>
-                <dd>{content.type}</dd>
-
-                <dt>Text</dt>
-                <dd>{content.text}</dd>
-            </dl>
-        </div>
-        : <div>
-            {truncate(content.text)}
-        </div>
-};
-
 export const HeadingBlockEditor = forwardRef(({ content, save }, ref) => {
     const methods = useForm({
         resolver: yupResolver(schema),

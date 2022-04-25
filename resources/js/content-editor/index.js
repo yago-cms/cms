@@ -25,7 +25,7 @@ export const contentTypeGroups = [
                 name: 'Heading',
                 icon: faHeading,
                 blockEditor: HeadingBlockEditor,
-                blockPreview: HeadingPreview,
+                isPreviewDetailsHidden: true,
             },
             {
                 id: 'lead',
