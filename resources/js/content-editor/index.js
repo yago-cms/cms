@@ -4,7 +4,7 @@ import { CardBlockEditor, CardPreview, CardTitle } from "./Card";
 import { CarouselBlockEditor, CarouselPreview } from "./Carousel";
 import { CtaBlockEditor, CtaPreview } from "./Cta";
 import { FieldBlockEditor, FieldPreview } from "./Field";
-import { HeadingBlockEditor, HeadingPreview } from "./Heading";
+import { HeadingBlockEditor } from "./Heading";
 import { HtmlBlockEditor, HtmlPreview } from "./Html";
 import { LeadBlockEditor, LeadPreview } from "./Lead";
 import { ListBlockEditor, ListPreview } from "./List";

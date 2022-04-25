@@ -2,7 +2,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { forwardRef, useEffect, useImperativeHandle } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
-import { truncate } from "../components/ContentBlockEditor/ContentBlock";
 import { Input } from "../components/Form/Input";
 import { Select } from "../components/Form/Select";
 import { usePrompt } from "../tmp-prompt";
