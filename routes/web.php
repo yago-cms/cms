@@ -22,8 +22,6 @@ Route::get('/img/{path}', [ImageController::class, 'show'])->where('path', '.*')
 Route::middleware(['web'])->group(function () {
     Route::get('/', [FrontendController::class, 'index']);
 
-    App::booted(function () {
-        Route::get('{route}', [FrontendController::class, 'getPage'])
-            ->where('route', '([A-Za-z0-9\-\/ÅÄÖåäö]+)');
-    });
+    Route::get('{route}', [FrontendController::class, 'getPage'])
+        ->where('route', '^(?!yago)([A-Za-z0-9\-\/ÅÄÖåäö]+)$');
 });

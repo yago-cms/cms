@@ -58,7 +58,7 @@ class FrontendController extends Controller
             // the last segment maybe resolves to a stored object
             $moduleBlocks = $this->moduleService->getBlocks();
 
-            $hasModule = false;
+            $hasModuleBlock = false;
 
             // check page blocks for registered modules
             foreach ($page->pageBlocks as $pageBlock) {
@@ -150,6 +150,8 @@ class FrontendController extends Controller
 
         $lastSegment = last(request()->segments());
 
+        $moduleFound = false;
+
         foreach ($pageSections as &$pageSection) {
             foreach ($pageSection['pageBlocks'] as &$pageBlock) {
                 foreach ($moduleBlocks as $moduleBlock) {
@@ -181,6 +183,8 @@ class FrontendController extends Controller
                                 }
                             }
                         }
+
+                        $moduleFound = true;
 
                         break;
                     }
@@ -222,6 +226,10 @@ class FrontendController extends Controller
             unset($pageBlock);
         }
         unset($pageSection);
+
+        if (!$moduleFound) {
+            abort(404);
+        }
 
         // fields
         $fields = Field::all();
