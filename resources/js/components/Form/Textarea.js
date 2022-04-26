@@ -1,9 +1,9 @@
 import { TextField } from "@mui/material";
 import { useController } from "react-hook-form";
 
-export const Textarea = ({ name, ...props }) => {
+export const Textarea = ({ name, helperText, onChange, ...props }) => {
     const {
-        field: { onChange, onBlur, value, ref },
+        field,
         fieldState: { error },
         formState: { isSubmitting }
     } = useController({
@@ -11,26 +11,24 @@ export const Textarea = ({ name, ...props }) => {
         defaultValue: '',
     });
 
-    const { onChangeExtra } = props;
-
     return (
         <TextField
             fullWidth
             multiline
             disabled={isSubmitting}
             onChange={(e) => {
-                onChange(e);
+                field.onChange(e);
 
-                if (onChangeExtra) {
-                    onChangeExtra(e);
+                if (onChange) {
+                    onChange(e);
                 }
             }}
-            onBlur={onBlur}
-            value={value}
+            onBlur={field.onBlur}
+            value={field.value}
             name={name}
-            inputRef={ref}
+            inputRef={field.ref}
             error={!!error?.message}
-            helperText={error?.message}
+            helperText={error?.message || helperText}
             minRows={6}
             {...props}
         />

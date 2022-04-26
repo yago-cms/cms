@@ -2,6 +2,7 @@
 
 namespace Yago\Cms\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Yago\Cms\Helpers\ModuleHelper;
 use Yago\Cms\Models\CardTemplate;
 use Yago\Cms\Models\Field;
@@ -11,6 +12,7 @@ use Yago\Cms\Models\Settings;
 use Yago\Cms\Services\AbstractDataProviderService;
 use Yago\Cms\Services\ModuleService;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class FrontendController extends Controller
 {
@@ -155,12 +157,22 @@ class FrontendController extends Controller
                         $controller = $moduleBlock['method'][0];
                         $action = $moduleBlock['method'][1];
 
-                        $response = app()->call("{$controller}@{$action}", [
-                            'config' => json_decode($pageBlock['content']),
-                            'segment' => $lastSegment
+                        session([
+                            'config' => $pageBlock['content'],
+                            'segment' => $lastSegment,
                         ]);
 
-                        $pageBlock['view'] = $response;
+                        $route = app('router')->getRoutes()->getByAction("{$controller}@{$action}");
+
+                        if (!$route) {
+                            abort(500, "Route not found for \"{$controller}@{$action}\".");
+                        }
+
+                        $request = Request::create($route->uri, 'GET');
+                        $response = app()->handle($request);
+                        $responseBody = $response->getContent();
+
+                        $pageBlock['view'] = $responseBody;
 
                         if ($moduleBlock['override'] === true) {
                             foreach ($pageSection['pageBlocks'] as $i => $otherPageBlock) {

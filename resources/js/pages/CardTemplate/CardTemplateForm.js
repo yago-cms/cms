@@ -242,7 +242,7 @@ export const CardTemplateForm = () => {
                                         <Input
                                             label="Label"
                                             name={`fields.${index}.label`}
-                                            onChangeExtra={(e) => methods.setValue(`fields.${index}.id`, _.kebabCase(e.target.value))}
+                                            onChange={(e) => methods.setValue(`fields.${index}.id`, _.kebabCase(e.target.value))}
                                         />
                                     </div>
 

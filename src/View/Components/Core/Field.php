@@ -2,6 +2,7 @@
 
 namespace Yago\Cms\View\Components\Core;
 
+use Illuminate\Http\Request;
 use Illuminate\View\Component;
 use Yago\Cms\Services\ModuleService;
 
@@ -32,7 +33,7 @@ class Field extends Component
      */
     public function render()
     {
-        $blocks = [];
+        $blocks = collect([]);
 
         foreach ($this->fields as $field) {
             if ($field['key'] == $this->fieldKey) {
@@ -50,6 +51,8 @@ class Field extends Component
             }
         }
 
+        $blocks = $blocks->sortBy('sorting');
+
         $moduleService = app()->make(ModuleService::class);
         $moduleBlocks = $moduleService->getBlocks();
 
@@ -59,12 +62,22 @@ class Field extends Component
                     $controller = $moduleBlock['method'][0];
                     $action = $moduleBlock['method'][1];
 
-                    $response = app()->call("{$controller}@{$action}", [
-                        'config' => json_decode($block['content']),
+                    session([
+                        'config' => $block['content'],
                         'segment' => null,
                     ]);
 
-                    $block['view'] = $response;
+                    $route = app('router')->getRoutes()->getByAction("{$controller}@{$action}");
+
+                    if (!$route) {
+                        abort(500, "Route not found for \"{$controller}@{$action}\".");
+                    }
+
+                    $request = Request::create($route->uri, 'GET');
+                    $response = app()->handle($request);
+                    $responseBody = $response->getContent();
+
+                    $block['view'] = $responseBody;
 
                     break;
                 }

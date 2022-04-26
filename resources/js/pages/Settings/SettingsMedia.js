@@ -128,7 +128,7 @@ const MediaBreakpointGroups = () => {
                         <Input
                             label="Name"
                             name={`breakpointGroups.${index}.name`}
-                            onChangeExtra={() => setValue(`breakpointGroups.${index}.key`, _.kebabCase(e.target.value))}
+                            onChange={() => setValue(`breakpointGroups.${index}.key`, _.kebabCase(e.target.value))}
                         />
 
                         <Input

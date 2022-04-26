@@ -19,7 +19,11 @@ Route::prefix('admin')
 // Frontend
 Route::get('/img/{path}', [ImageController::class, 'show'])->where('path', '.*');
 
-Route::get('/', [FrontendController::class, 'index']);
+Route::middleware(['web'])->group(function () {
+    Route::get('/', [FrontendController::class, 'index']);
 
-Route::get('{route}', [FrontendController::class, 'getPage'])
-    ->where('route', '([A-Za-z0-9\-\/ÅÄÖåäö]+)');
+    App::booted(function () {
+        Route::get('{route}', [FrontendController::class, 'getPage'])
+            ->where('route', '([A-Za-z0-9\-\/ÅÄÖåäö]+)');
+    });
+});

@@ -4,7 +4,7 @@ import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useController } from "react-hook-form";
 
-export const DateTimePicker = ({ name, onChangeExtra, ...props }) => {
+export const DateTimePicker = ({ name, ...props }) => {
     const {
         field: { onChange, onBlur, value, ref },
         fieldState: { error },

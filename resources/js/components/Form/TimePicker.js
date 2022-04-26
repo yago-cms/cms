@@ -4,7 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker as MuiTimePicker } from "@mui/x-date-pickers/TimePicker";
 import { useController } from "react-hook-form";
 
-export const TimePicker = ({ name, onChangeExtra, ...props }) => {
+export const TimePicker = ({ name, ...props }) => {
     const {
         field: { onChange, onBlur, value, ref },
         fieldState: { error },

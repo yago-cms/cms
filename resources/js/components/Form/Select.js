@@ -1,9 +1,9 @@
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select as MuiSelect } from "@mui/material";
 import { useController } from "react-hook-form";
 
-export const Select = ({ name, label, options, helperText, ...props }) => {
+export const Select = ({ name, label, options, helperText, onChange, ...props }) => {
     const {
-        field: { onChange, onBlur, value, ref },
+        field,
         fieldState: { error },
         formState: { isSubmitting }
     } = useController({
@@ -24,11 +24,17 @@ export const Select = ({ name, label, options, helperText, ...props }) => {
                 id={id}
                 label={label}
                 disabled={isSubmitting}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
+                onChange={(e) => {
+                    field.onChange(e);
+
+                    if (onChange) {
+                        onChange(e);
+                    }
+                }}
+                onBlur={field.onBlur}
+                value={field.value}
                 name={name}
-                ref={ref}
+                ref={field.ref}
                 {...props}
             >
                 {options.map((option) => <MenuItem value={option.value} key={option.value}>

@@ -1,9 +1,9 @@
 import { Input as MuiInput, TextField } from "@mui/material";
 import { useController } from "react-hook-form";
 
-export const Input = ({ name, helperText, onChangeExtra, ...props }) => {
+export const Input = ({ name, helperText, onChange, ...props }) => {
     const {
-        field: { onChange, onBlur, value, ref },
+        field,
         fieldState: { error },
         formState: { isSubmitting }
     } = useController({
@@ -15,14 +15,14 @@ export const Input = ({ name, helperText, onChangeExtra, ...props }) => {
         return (
             <MuiInput
                 type="hidden"
-                onChange={(e) => {
-                    onChange(e);
+                onChange={(event) => {
+                    field.onChange(event);
 
-                    if (onChangeExtra) {
-                        onChangeExtra(e);
+                    if (onChange) {
+                        onChange(event);
                     }
                 }}
-                value={value}
+                value={field.value}
                 sx={{ display: 'none' }}
             />
         );
@@ -32,17 +32,17 @@ export const Input = ({ name, helperText, onChangeExtra, ...props }) => {
         <TextField
             fullWidth
             disabled={isSubmitting}
-            onChange={(e) => {
-                onChange(e);
+            onChange={(event) => {
+                field.onChange(event);
 
-                if (onChangeExtra) {
-                    onChangeExtra(e);
+                if (onChange) {
+                    onChange(event);
                 }
             }}
-            onBlur={onBlur}
-            value={value}
+            onBlur={field.onBlur}
+            value={field.value}
             name={name}
-            inputRef={ref}
+            inputRef={field.ref}
             error={!!error?.message}
             helperText={error?.message || helperText}
             {...props}

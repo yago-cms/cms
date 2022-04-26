@@ -290,7 +290,7 @@ export const PageTemplateForm = () => {
                                 <Input
                                     label="Name"
                                     name={`sections.${index}.name`}
-                                    onChangeExtra={(e) => methods.setValue(`sections.${index}.key`, _.kebabCase(e.target.value))}
+                                    onChange={(e) => methods.setValue(`sections.${index}.key`, _.kebabCase(e.target.value))}
                                 />
 
                                 <Input
