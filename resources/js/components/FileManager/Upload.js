@@ -1,7 +1,8 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, List, ListItem, ListItemText, Typography } from "@mui/material";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useDrop } from "react-dnd";
 import { NativeTypes } from "react-dnd-html5-backend";
+import { DialogTitle } from "../DialogTitle";
 
 const UploadFileList = ({ files }) => {
     const list = (files) => {
@@ -99,9 +100,9 @@ export const UploadDrawer = ({ path, getFilesResult, uploadFiles, isUploadActive
             open={isUploadActive}
             onClose={() => setIsUploadActive(false)}
         >
-            <DialogTitle>Upload files</DialogTitle>
+            <DialogTitle onClose={() => setIsUploadActive(false)}>Upload files</DialogTitle>
 
-            <DialogContent>
+            <DialogContent dividers>
                 <Upload files={files} setFiles={setFiles} />
             </DialogContent>
 

@@ -5,6 +5,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Children, cloneElement, isValidElement, useMemo, useRef, useState } from "react";
 import sanitizeHtml from 'sanitize-html';
 import { contentTypeGroups } from "../../module";
+import { DialogTitle } from "../DialogTitle";
 import { defaultConfig } from "../Form/Wysiwyg";
 
 export const truncateOptions = {
@@ -237,7 +238,9 @@ export default function ContentBlock({
                 onClose={() => setIsDrawerOpen(false)}
                 disableEnforceFocus
             >
-                <DialogContent>
+                <DialogTitle onClose={() => setIsDrawerOpen(false)}>Edit content block</DialogTitle>
+
+                <DialogContent dividers>
                     {isBlockEditor
                         ? <BlockEditor />
                         : <Box sx={{ height: '80vh' }}>

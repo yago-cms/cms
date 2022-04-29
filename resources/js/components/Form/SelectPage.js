@@ -1,8 +1,9 @@
 import { faFileAlt } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Dialog, DialogContent, DialogTitle, InputAdornment, TextField } from "@mui/material";
-import { forwardRef, useState } from "react";
+import { Dialog, DialogContent, InputAdornment, TextField } from "@mui/material";
+import { useState } from "react";
 import { useController } from "react-hook-form";
+import { DialogTitle } from "../DialogTitle";
 import { PageTree } from "../PageTree";
 
 export const SelectPage = ({ label, name, ...props }) => {
@@ -43,9 +44,9 @@ export const SelectPage = ({ label, name, ...props }) => {
                 open={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
             >
-                <DialogTitle>Select page</DialogTitle>
+                <DialogTitle onClose={() => setIsDrawerOpen(false)}>Select page</DialogTitle>
 
-                <DialogContent>
+                <DialogContent dividers>
                     <PageTree
                         onSelectPage={handleSelectPage}
                     />

@@ -1,10 +1,11 @@
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { GET_FILES, RENAME_FILE } from "../../queries";
+import { DialogTitle } from "../DialogTitle";
 import { Input } from "../Form/Input";
 
 export const ChangeNameDrawer = ({ file, isChangeNameActive, setIsChangeNameActive, setErrorMessage }) => {
@@ -58,11 +59,9 @@ export const ChangeNameDrawer = ({ file, isChangeNameActive, setIsChangeNameActi
             open={isChangeNameActive}
             onClose={() => setIsChangeNameActive(false)}
         >
-            <DialogTitle>
-                Change filename
-            </DialogTitle>
+            <DialogTitle onClose={() => setIsChangeNameActive(false)}>Change name</DialogTitle>
 
-            <DialogContent>
+            <DialogContent dividers>
                 <FormProvider {...methods}>
                     <Input
                         label="Name"

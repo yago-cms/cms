@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { faPhotoVideo } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Dialog, DialogContent, DialogTitle, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Dialog, DialogContent, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useController } from "react-hook-form";
 import { GET_SETTINGS } from "../../queries";
+import { DialogTitle } from "../DialogTitle";
 import { Error } from "../Error";
 import { FileManager } from "../FileManager";
 import { Loading } from "../Loading";
@@ -106,9 +107,9 @@ export const SelectMedia = ({ label, name, handleDelete, isBreakpointsEnabled, .
                 open={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
             >
-                <DialogTitle>Select media</DialogTitle>
+                <DialogTitle onClose={() => setIsDrawerOpen(false)}>Select media</DialogTitle>
 
-                <DialogContent>
+                <DialogContent dividers>
                     <FileManager
                         isSelectMode
                         filter="media"

@@ -1,4 +1,5 @@
 import { Dialog, DialogContent } from "@mui/material";
+import { DialogTitle } from "../DialogTitle";
 import { PreviewFile } from "./File";
 
 export const PreviewDrawer = ({ currentFile, isPreviewActive, setIsPreviewActive }) => {
@@ -7,7 +8,8 @@ export const PreviewDrawer = ({ currentFile, isPreviewActive, setIsPreviewActive
             open={isPreviewActive}
             onClose={() => setIsPreviewActive(false)}
         >
-            <DialogContent>
+            <DialogTitle onClose={() => setIsPreviewActive(false)}>Preview</DialogTitle>
+            <DialogContent dividers>
                 <PreviewFile file={currentFile} />
             </DialogContent>
         </Dialog>

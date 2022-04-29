@@ -174,6 +174,10 @@ class FrontendController extends Controller
                         $response = app()->handle($request);
                         $responseBody = $response->getContent();
 
+                        if ($response->getStatusCode() !== 200) {
+                            abort($response->getStatusCode());
+                        }
+
                         $pageBlock['view'] = $responseBody;
 
                         if ($moduleBlock['override'] === true) {
@@ -227,7 +231,7 @@ class FrontendController extends Controller
         }
         unset($pageSection);
 
-        if (!$moduleFound) {
+        if ($depth > 0 && !$moduleFound) {
             abort(404);
         }
 

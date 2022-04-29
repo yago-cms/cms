@@ -1,10 +1,11 @@
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { CREATE_FOLDER, GET_FILES } from "../../queries";
+import { DialogTitle } from "../DialogTitle";
 import { Input } from "../Form/Input";
 
 export const CreateFolderDrawer = ({ path, setErrorMessage, isCreateFolderActive, setIsCreateFolderActive }) => {
@@ -50,9 +51,9 @@ export const CreateFolderDrawer = ({ path, setErrorMessage, isCreateFolderActive
             open={isCreateFolderActive}
             onClose={() => setIsCreateFolderActive(false)}
         >
-            <DialogTitle>Create folder</DialogTitle>
+            <DialogTitle onClose={() => setIsCreateFolderActive(false)}>Create folder</DialogTitle>
 
-            <DialogContent>
+            <DialogContent dividers>
                 <FormProvider {...methods}>
                     <Input
                         label="Name"

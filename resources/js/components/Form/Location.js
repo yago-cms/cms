@@ -6,6 +6,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, FormControl, IconBut
 import { useEffect, useState } from "react";
 import { useController } from "react-hook-form";
 import { GET_SETTINGS } from "../../queries";
+import { DialogTitle } from "../DialogTitle";
 import { Error } from "../Error";
 import { Loading } from "../Loading";
 import { Map, Marker } from "../Map";
@@ -110,7 +111,9 @@ export const Location = ({ name, label, defaultZoom, defaultCenter, helperText, 
                         fullWidth
                         maxWidth="lg"
                     >
-                        <DialogContent>
+                        <DialogTitle onClose={() => setIsMapShowing(false)}>Location</DialogTitle>
+
+                        <DialogContent dividers>
                             <Box sx={{ display: 'flex', height: '40rem' }}>
                                 <Wrapper apiKey={googleMapsApiKey} render={render} >
                                     <Map
