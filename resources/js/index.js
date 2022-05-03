@@ -36,9 +36,28 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
+const cache = new InMemoryCache({
+    typePolicies: {
+        Connection: {
+            fields: {
+                connection: {
+                    keyArgs: false,
+                    merge(existing, incoming, { args: { offset = 0 } }) {
+                        const merged = existing ? existing.slice(0) : [];
+                        for (let i = 0; i < incoming.length; ++i) {
+                            merged[offset + i] = incoming[i];
+                        }
+                        return merged;
+                    },
+                }
+            }
+        }
+    }
+});
+
 const client = new ApolloClient({
     link: from([authLink, errorLink, uploadLink]),
-    cache: new InMemoryCache()
+    cache,
 });
 
 ReactDOM.render(<ApolloProvider client={client}>
