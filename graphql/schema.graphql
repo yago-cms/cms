@@ -8,10 +8,15 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
 
 type Query {
-    # Auth
+    # User
     me: User @auth @guard
-    # users: [User!]! @paginate(defaultCount: 10)
-    # user(id: ID @eq): User @find
+    user(id: ID @eq): User @guard @find
+    users: [User!]! @guard @all
+    usersPaginated: [User!]! @guard @paginate
+
+    role(id: ID @eq): Role @guard @find
+    roles: [Role!]! @guard @all
+    rolesPaginated: [Role!]! @guard @paginate
 
      # Version
     currentVersion: Version @field(resolver: "VersionQuery", args: ["current"]) @guard
@@ -45,6 +50,9 @@ type Query {
 }
 
 type Mutation {
+    # User
+    upsertUser(input: UpsertUserInput! @spread): User! @guard @upsert
+
     # Auth
     login(input: LoginInput!): AccessToken!
     logout: LogoutResponse! @guard
@@ -81,6 +89,35 @@ type Mutation {
     upsertField(input: UpsertFieldInput! @spread): Field! @guard @upsert
 }
 
+# User
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+input UpsertUserInput {
+    id: ID
+    name: String!
+    email: String!
+    password: String @hash
+}
+
+# Role
+type Role {
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+input UpsertRoleInput {
+    id: ID
+    name: String!
+}
+
 # Auth
 input LoginInput {
     email: String!
@@ -108,15 +145,6 @@ type UpdateToLatestVersionResponse {
 type Settings {
     id: String!
     value: String!
-}
-
-# User
-type User {
-    id: ID!
-    name: String!
-    email: String!
-    created_at: DateTime!
-    updated_at: DateTime!
 }
 
 # Page template

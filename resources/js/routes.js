@@ -1,3 +1,5 @@
+import { UserForm } from './pages/Access/UserForm';
+import { UserIndex } from './pages/Access/UserIndex';
 import { CardTemplateForm } from './pages/CardTemplate/CardTemplateForm';
 import { CardTemplateIndex } from './pages/CardTemplate/CardTemplateIndex';
 import { DashboardIndex } from './pages/Dashboard/DashboardIndex';
@@ -80,6 +82,19 @@ export default [
     {
         path: '/files/*',
         component: <FileIndex />
+    },
+    {
+        path: '/access/users',
+        exact: true,
+        component: <UserIndex />
+    },
+    {
+        path: '/access/users/create',
+        component: <UserForm />
+    },
+    {
+        path: '/access/users/:id',
+        component: <UserForm />
     },
     {
         path: '/settings',

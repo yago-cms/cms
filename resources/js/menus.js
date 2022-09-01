@@ -1,4 +1,4 @@
-import { faCogs, faColumns, faFile, faFileAlt, faImages, faSquare, faTachometer } from "@fortawesome/pro-duotone-svg-icons";
+import { faCogs, faFile, faImages, faSquare, faTachometer, faUsers } from "@fortawesome/pro-duotone-svg-icons";
 
 export default [
     {
@@ -35,6 +35,16 @@ export default [
         route: '/files'
     },
     {
+        name: 'Access',
+        icon: faUsers,
+        children: [
+            {
+                name: 'Users',
+                route: '/access/users'
+            },
+        ]
+    },
+    {
         name: 'Settings',
         icon: faCogs,
         children: [
@@ -49,7 +59,7 @@ export default [
             {
                 name: 'Media',
                 route: '/settings/media'
-            }
+            },
         ],
     },
 ];

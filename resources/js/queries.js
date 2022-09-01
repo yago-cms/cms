@@ -4,6 +4,8 @@ import { gql } from "@apollo/client";
 export const GET_ME = gql`
     query Me {
         me {
+            id
+
             name
             email
         }
@@ -21,6 +23,57 @@ export const LOGOUT = gql`
     mutation Logout {
         logout {
             message
+        }
+    }
+`;
+
+// User
+export const GET_USERS = gql`
+    query GetUsers {
+        users {
+            id
+
+            name
+            email
+        }
+    }
+`;
+
+export const GET_USERS_PAGINATED = gql`
+    query GetUsersPaginated($page: Int!) {
+        usersPaginated(first: 25, page: $page) @connection(key: "user") {
+            data {
+                id
+
+                name
+                email
+            }
+
+            paginatorInfo {
+                total
+            }
+        }
+    }
+`;
+
+export const GET_USER = gql`
+    query GetUser($id: ID!) {
+        user(id: $id) {
+            id
+
+            name
+            email
+        }
+    }
+`;
+
+export const UPSERT_USER = gql`
+    mutation UpsertUser($input: UpsertUserInput!) {
+        upsertUser(input: $input) {
+            id
+
+            name
+            email
         }
     }
 `;
