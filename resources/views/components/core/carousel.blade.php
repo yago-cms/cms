@@ -92,29 +92,27 @@ $isBreakpoints = $breakpoints ?? false;
 </div>
 
 @once
-    @push('styles')
-        <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-        <style>
-            .swiper-tab-list {
-                position: relative;
-            }
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <style>
+        .swiper-tab-list {
+            position: relative;
+        }
 
-            .swiper-tab-list__item {
-                opacity: 0;
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                transition: opacity 0.3s ease-in-out;
-            }
+        .swiper-tab-list__item {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
 
-            .swiper-tab-list__item.active {
-                opacity: 1;
-            }
+        .swiper-tab-list__item.active {
+            opacity: 1;
+        }
 
-        </style>
-    @endpush
+    </style>
 @endonce
 
 <script type="module">
