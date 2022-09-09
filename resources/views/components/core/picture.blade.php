@@ -22,7 +22,7 @@ $breakpoints = MediaHelper::getBreakpoints($breakpointGroup);
                         http_build_query([
                             'w' => $breakpoint->targetWidth,
                             'h' => $breakpoint->targetHeight,
-                            'fit' => 'crop',
+                            'fit' => $breakpoint->fit,
                         ]);
 
                     break;

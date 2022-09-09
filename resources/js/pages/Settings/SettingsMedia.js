@@ -50,6 +50,13 @@ const MediaBreakpoints = ({ index: parentIndex }) => {
                         </Grid>
 
                         <Grid item xs={2}>
+                            <Input
+                                label="Fit"
+                                name={`breakpointGroups.${parentIndex}.breakpoints.${index}.fit`}
+                            />
+                        </Grid>
+
+                        <Grid item xs={2}>
                             <ButtonGroup>
                                 {!isFirst && <IconButton
                                     size="small"
@@ -81,7 +88,9 @@ const MediaBreakpoints = ({ index: parentIndex }) => {
             })}
 
             <Button
-                onClick={() => append({})}
+                onClick={() => append({
+                    fit: 'crop',
+                })}
             >
                 Add breakpoint
             </Button>
@@ -173,6 +182,7 @@ export const SettingsMedia = () => {
                         minWidth: yup.number().min(0).integer().required(),
                         targetWidth: yup.number().positive().integer().required(),
                         targetHeight: yup.number().positive().integer().required(),
+                        fit: yup.string().required(),
                     }),
                 ),
             }),
