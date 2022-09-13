@@ -37,6 +37,7 @@ export const SelectPage = ({ label, name, ...props }) => {
                         </InputAdornment>
                     )
                 }}
+                {...props}
             />
 
             <Dialog

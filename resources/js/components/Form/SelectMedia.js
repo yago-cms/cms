@@ -75,6 +75,7 @@ export const SelectMedia = ({ label, name, handleDelete, isBreakpointsEnabled, .
                             </InputAdornment>
                         )
                     }}
+                    {...props}
                 />
 
                 {isBreakpointsEnabled && <FormControl

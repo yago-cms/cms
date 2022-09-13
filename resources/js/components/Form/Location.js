@@ -100,6 +100,7 @@ export const Location = ({ name, label, defaultZoom, defaultCenter, helperText, 
                                 </InputAdornment>
                             }
                             label={label}
+                            {...props}
                         />
 
                         {formState.error?.message && <FormHelperText error>{formState.error.message}</FormHelperText>}
