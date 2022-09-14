@@ -482,8 +482,11 @@ export const PageForm = () => {
 
   const hasSections = sections && sections.length > 0;
   const hasTemplate = !(watchTemplate > 0 && sections && sections.length == 0);
-  const url = `//${window.location.hostname
-}/${getPageResult.data.page.route}`;
+  let url;
+
+  if (!isNew) {
+    url = `//${window.location.hostname}/${getPageResult.data.page.route}`;
+  }
 
   return (
     <FormProvider {...methods}>
