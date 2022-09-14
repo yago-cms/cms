@@ -78,6 +78,14 @@ export const UPSERT_USER = gql`
     }
 `;
 
+export const DELETE_USER = gql`
+    mutation DeleteUser($id: ID!) {
+        deleteUser(id: $id) {
+            id
+        }
+    }
+`;
+
 // Version
 export const GET_CURRENT_VERSION = gql`
     query GetCurrentVersion {
@@ -151,6 +159,14 @@ export const UPSERT_PAGE_TEMPLATE = gql`
                     id
                 }
             }
+        }
+    }
+`;
+
+export const DELETE_PAGE_TEMPLATE = gql`
+    mutation DeletePageTemplate($id: ID!) {
+        deletePageTemplate(id: $id) {
+            id
         }
     }
 `;
@@ -449,6 +465,15 @@ export const UPSERT_CARD_TEMPLATE = gql`
     }
 `;
 
+export const DELETE_CARD_TEMPLATE = gql`
+    mutation DeleteCardTemplate($id: ID!) {
+        deleteCardTemplate(id: $id) {
+            id
+        }
+    }
+`;
+
+
 // Fields
 export const GET_FIELDS = gql`
     query GetFields {
@@ -492,6 +517,14 @@ export const UPSERT_FIELD = gql`
                 content
                 sorting
             }
+        }
+    }
+`;
+
+export const DELETE_FIELD = gql`
+    mutation DeleteField($id: ID!) {
+        deleteField(id: $id) {
+            id
         }
     }
 `;

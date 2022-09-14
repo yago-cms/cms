@@ -1,5 +1,5 @@
-import { useQuery } from "@apollo/client";
-import { faEdit, faPlus } from "@fortawesome/pro-duotone-svg-icons";
+import { useQuery, useMutation } from "@apollo/client";
+import { faEdit, faPlus, faTrash } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Error } from "../../components/Error";
 import { Loading } from "../../components/Loading";
 import { Page, PageContent } from "../../components/Page";
-import { GET_USERS_PAGINATED } from "../../queries";
+import { GET_USERS_PAGINATED, DELETE_USER } from "../../queries";
 
 export const UserIndex = () => {
     const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -18,7 +18,29 @@ export const UserIndex = () => {
             page: 1,
         }
     });
+
+    const [deleteUser, deleteUserResult] = useMutation(DELETE_USER, {
+        refetchQueries: [
+            {
+                query: GET_USERS_PAGINATED,
+                variables: {
+                    page: 1,
+                }
+            }
+        ]
+    });
+
     const navigate = useNavigate();
+
+    const handleDelete = (id) => {
+        if (confirm('Are you sure you want to remove this item?')) {
+            deleteUser({
+                variables: {
+                    id
+                }
+            });
+        }
+    };
 
     const isLoading = getUsersResult.loading;
     const error = getUsersResult.error;
@@ -37,9 +59,15 @@ export const UserIndex = () => {
             type: 'actions',
             headerName: 'Actions',
             renderCell: (params) => (
-                <IconButton size="small" onClick={() => navigate(`/access/users/${params.id}`)}>
-                    <FontAwesomeIcon icon={faEdit} />
-                </IconButton>
+                <>
+                    <IconButton size="small" onClick={() => handleDelete(params.id)}>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </IconButton>
+
+                    <IconButton size="small" onClick={() => navigate(`/access/users/${params.id}`)}>
+                        <FontAwesomeIcon icon={faEdit} />
+                    </IconButton>
+                </>
             ),
         }
     ];

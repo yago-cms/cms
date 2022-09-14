@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { faPlus } from "@fortawesome/pro-duotone-svg-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button, Typography } from "@mui/material";
+import { Alert, Box, Button, Link, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 import { ContentBlockEditor } from "../../components/ContentBlockEditor";
 import { Error } from "../../components/Error";
@@ -482,6 +482,8 @@ export const PageForm = () => {
 
   const hasSections = sections && sections.length > 0;
   const hasTemplate = !(watchTemplate > 0 && sections && sections.length == 0);
+  const url = `//${window.location.hostname
+}/${getPageResult.data.page.route}`;
 
   return (
     <FormProvider {...methods}>
@@ -499,9 +501,12 @@ export const PageForm = () => {
           ? (
             <>
               <PageContent>
-                {isDraft && <div className="alert alert-info">
+                {isDraft && <Alert severity="info" sx={{ mb: 2 }}>
                   This page is a draft and therefore not published. You can continue editing this draft and save changes with <strong>Save draft</strong> or publish it with <strong>Publish</strong>.
-                </div>}
+                </Alert>}
+
+                {!isNew && <Link href={url} target="_blank" sx={{ display: 'block', mb: 2 }}>{url}</Link>}
+
                 <Input
                   name="name"
                   label="Name"

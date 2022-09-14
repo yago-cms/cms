@@ -70,7 +70,8 @@ export const PreviewFile = ({ file }) => {
         <Box sx={{
             textAlign: 'center'
         }}>
-            <img style={{ width: '100%' }} src={`/storage/upload/${file.path}`} />
+            <img style={{ width: '100%' }} src={`/storage/upload/${file.path}`} /><br />
+            {`/storage/upload/${file.path}`}
         </Box>
     )
 };

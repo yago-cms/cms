@@ -1,5 +1,5 @@
-import { useQuery } from "@apollo/client";
-import { faEdit, faPlus } from "@fortawesome/pro-duotone-svg-icons";
+import { useQuery, useMutation } from "@apollo/client";
+import { faEdit, faPlus, faTrash } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -7,11 +7,31 @@ import { useNavigate } from "react-router-dom";
 import { Error } from "../../components/Error";
 import { Loading } from "../../components/Loading";
 import { Page, PageContent } from "../../components/Page";
-import { GET_PAGE_TEMPLATES } from "../../queries";
+import { GET_PAGE_TEMPLATES, DELETE_PAGE_TEMPLATE } from "../../queries";
 
 export const PageTemplateIndex = () => {
     const getPageTemplatesResult = useQuery(GET_PAGE_TEMPLATES);
+
+    const [deletePageTemplate, deletePageTemplateResult] = useMutation(DELETE_PAGE_TEMPLATE, {
+        refetchQueries: [
+            {
+                query: GET_PAGE_TEMPLATES,
+            }
+        ]
+    });
+
     const navigate = useNavigate();
+
+    const handleDelete = (id) => {
+        if (confirm('Are you sure you want to remove this item?')) {
+            deletePageTemplate({
+                variables: {
+                    id
+                }
+            });
+        }
+    };
+
 
     const isLoading = getPageTemplatesResult.loading;
     const error = getPageTemplatesResult.error;
@@ -30,9 +50,15 @@ export const PageTemplateIndex = () => {
             type: 'actions',
             headerName: 'Actions',
             renderCell: (params) => (
-                <IconButton size="small" onClick={() => navigate(`/pages/templates/${params.id}`)}>
-                    <FontAwesomeIcon icon={faEdit} />
-                </IconButton>
+                <>
+                    <IconButton size="small" onClick={() => handleDelete(params.id)}>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </IconButton>
+
+                    <IconButton size="small" onClick={() => navigate(`/pages/templates/${params.id}`)}>
+                        <FontAwesomeIcon icon={faEdit} />
+                    </IconButton>
+                </>
             ),
         }
     ];

@@ -1,5 +1,5 @@
-import { useQuery } from "@apollo/client";
-import { faEdit, faPlus } from "@fortawesome/pro-duotone-svg-icons";
+import { useQuery, useMutation } from "@apollo/client";
+import { faEdit, faPlus, faTrash } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -7,11 +7,30 @@ import { useNavigate } from "react-router-dom";
 import { Error } from "../../components/Error";
 import { Loading } from "../../components/Loading";
 import { Page, PageContent } from "../../components/Page";
-import { GET_CARD_TEMPLATES } from "../../queries";
+import { GET_CARD_TEMPLATES, DELETE_CARD_TEMPLATE } from "../../queries";
 
 export const CardTemplateIndex = () => {
     const getCardTemplatesResult = useQuery(GET_CARD_TEMPLATES);
+
+    const [deleteCardTemplate, deleteCardTemplateResult] = useMutation(DELETE_CARD_TEMPLATE, {
+        refetchQueries: [
+            {
+                query: GET_CARD_TEMPLATES,
+            }
+        ]
+    });
+
     const navigate = useNavigate();
+
+    const handleDelete = (id) => {
+        if (confirm('Are you sure you want to remove this item?')) {
+            deleteCardTemplate({
+                variables: {
+                    id
+                }
+            });
+        }
+    };
 
     const isLoading = getCardTemplatesResult.loading;
     const error = getCardTemplatesResult.error;
@@ -30,9 +49,15 @@ export const CardTemplateIndex = () => {
             type: 'actions',
             headerName: 'Actions',
             renderCell: (params) => (
-                <IconButton size="small" onClick={() => navigate(`/pages/cards/${params.id}`)}>
-                    <FontAwesomeIcon icon={faEdit} />
-                </IconButton>
+                <>
+                    <IconButton size="small" onClick={() => handleDelete(params.id)}>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </IconButton>
+
+                    <IconButton size="small" onClick={() => navigate(`/pages/cards/${params.id}`)}>
+                        <FontAwesomeIcon icon={faEdit} />
+                    </IconButton>
+                </>
             ),
         }
     ];

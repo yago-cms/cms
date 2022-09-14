@@ -52,6 +52,7 @@ type Query {
 type Mutation {
     # User
     upsertUser(input: UpsertUserInput! @spread): User! @guard @upsert
+    deleteUser(id: ID!): User! @delete
 
     # Auth
     login(input: LoginInput!): AccessToken!
@@ -74,9 +75,11 @@ type Mutation {
 
     # Page template
     upsertPageTemplate(input: UpsertPageTemplateInput! @spread): PageTemplate! @guard @upsert
+    deletePageTemplate(id: ID!): PageTemplate! @delete
 
     # Card template
     upsertCardTemplate(input: UpsertCardTemplateInput! @spread): CardTemplate! @guard @upsert
+    deleteCardTemplate(id: ID!): CardTemplate! @delete
 
      # File
     moveFile(input: MoveFileInput! @spread): Files! @guard
@@ -87,6 +90,7 @@ type Mutation {
 
     # Field
     upsertField(input: UpsertFieldInput! @spread): Field! @guard @upsert
+    deleteField(id: ID!): Field! @delete
 }
 
 # User
