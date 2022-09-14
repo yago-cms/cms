@@ -70,7 +70,9 @@ export const PreviewFile = ({ file }) => {
         <Box sx={{
             textAlign: 'center'
         }}>
-            <img style={{ width: '100%' }} src={`/storage/upload/${file.path}`} /><br />
+            {fileIsImage(file.extension) && <>
+                <img style={{ width: '100%' }} src={`/storage/upload/${file.path}`} /><br />
+            </>}
             {`/storage/upload/${file.path}`}
         </Box>
     )
@@ -106,7 +108,7 @@ export const File = ({
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                width: '8rem',
+                width: '13rem',
                 p: 2,
             }}
         >
@@ -136,16 +138,14 @@ export const File = ({
                 }
 
                 <Typography>
-                    {file.name}
+                    {_.truncate(file.name, { length: 20 })}
                 </Typography>
             </Box>
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                {fileIsImage && (
-                    <IconButton size="small" onClick={() => handlePreview(file)}>
-                        <FontAwesomeIcon icon={faEye} />
-                    </IconButton>
-                )}
+                <IconButton size="small" onClick={() => handlePreview(file)}>
+                    <FontAwesomeIcon icon={faEye} />
+                </IconButton>
 
                 <IconButton size="small" onClick={() => handleChangeName(file)}>
                     <FontAwesomeIcon icon={faEdit} />

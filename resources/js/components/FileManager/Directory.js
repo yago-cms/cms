@@ -43,7 +43,7 @@ export default function Directory({
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                width: '8rem',
+                width: '13rem',
                 p: 2,
                 transition: 'border-color 0.3s',
                 border: 1,
