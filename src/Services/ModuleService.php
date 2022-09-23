@@ -3,6 +3,7 @@
 namespace Yago\Cms\Services;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ModuleService
 {
@@ -66,6 +67,14 @@ class ModuleService
     {
         $scripts = [];
 
+        if (app()->environment('local-dev')) {
+            $scripts[] = public_path('/vendor/cms/js/vendor.js');
+            $scripts[] = public_path('/vendor/cms/js/app.js');
+        } else {
+            $scripts[] = public_path('/vendor/cms/js/vendor.min.js');
+            $scripts[] = public_path('/vendor/cms/js/app.min.js');
+        }
+
         foreach ($this->modules as $module) {
             if (app()->environment('local-dev')) {
                 $filename = 'main.js';
@@ -79,9 +88,16 @@ class ModuleService
                 throw new \Exception("Script bundle for module \"{$module['name']}\" not found at \"{$path}\".");
             }
 
-            $scripts[] = '<script src="' . str_replace(public_path(), '', $path) . '"></script>';
+            $scripts[] = $path;
         }
 
-        return implode("\n", $scripts);
+        $bundle = '';
+
+        foreach ($scripts as $script) {
+            $bundle .= file_get_contents($script);
+        }
+        Storage::put('public/bundle.js', $bundle);
+
+        return '<script src="/storage/bundle.js"></script>';
     }
 }

@@ -19,16 +19,6 @@
 <body class="body">
     <div id="app"></div>
 
-    @env(['production', 'local'])
-    <script src="/vendor/cms/js/vendor.min.js"></script>
-    <script src="/vendor/cms/js/app.min.js"></script>
-    @endenv
-
-    @env('local-dev')
-    <script src="/vendor/cms/js/vendor.js"></script>
-    <script src="/vendor/cms/js/app.js"></script>
-    @endenv
-
     {!! $moduleService->getScripts() !!}
 
     @stack('scripts')
