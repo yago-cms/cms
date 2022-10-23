@@ -132,6 +132,7 @@ export default function ContentBlock({
                 ...defaultConfig,
                 skin: prefersDarkMode ? 'oxide-dark' : 'oxide',
                 content_css: prefersDarkMode ? 'dark' : '',
+                relative_urls: false,
             }}
             tinymceScriptSrc="/vendor/cms/js/tinymce/tinymce.min.js"
             initialValue={content}
