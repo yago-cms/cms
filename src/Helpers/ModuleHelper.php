@@ -10,6 +10,8 @@ class ModuleHelper
     {
         $page = Page::find($pageId);
 
-        return $page->route;
+        return strlen($page->route) > 0 && $page->route[0] != '/' ?
+            '/'.$page->route :
+            $page->route;
     }
 }
